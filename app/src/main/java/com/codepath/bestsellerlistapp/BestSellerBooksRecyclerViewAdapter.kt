@@ -3,10 +3,12 @@ package com.codepath.bestsellerlistapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.codepath.bestsellerlistapp.BestSellerBooksRecyclerViewAdapter.BookViewHolder
 import com.codepath.bestsellerlistapp.R.id
 import com.codepath.bestsellerlistapp.R.layout
@@ -30,6 +32,12 @@ class BestSellerBooksRecyclerViewAdapter(
         holder.mItem = books[position]
         holder.mBookTitle.text = books[position].title
         holder.mBookAuthor.text = books[position].author
+        holder.mBookRating.text = books[position].rank.toString()
+        holder.mBookDescription.text = books[position].description
+        Glide.with(holder.mView)
+            .load(books[position].bookImageUrl)
+            .centerInside()
+            .into(holder.mBookImage)
         holder.mView.setOnClickListener {
             holder.mItem?.let { book ->
                 mListener?.onItemClick(book)
@@ -44,6 +52,9 @@ class BestSellerBooksRecyclerViewAdapter(
     inner class BookViewHolder(val mView: View) : ViewHolder(mView) {
         val mBookTitle: TextView = mView.findViewById<View>(id.book_title) as TextView
         val mBookAuthor: TextView = mView.findViewById<View>(id.book_author) as TextView
+        val mBookRating: TextView = mView.findViewById<View>(id.ranking) as TextView
+        val mBookDescription: TextView = mView.findViewById<View>(id.book_description) as TextView
+        val mBookImage: ImageView = mView.findViewById<View>(id.book_image) as ImageView
         var mItem: BestSellerBook? = null
 
         override fun toString(): String {
